@@ -4,27 +4,32 @@ import AppoinmentForm from '@/components/forms/AppoinmentForm';
 import { getPaitent } from '@/lib/actions/patient.actions';
 import Image from 'next/image'
 
-const Appointment = async ({ params: { PaitentId } }: SearchParamProps) => {
+const NewAppointment = async ({ params: { userId } }: SearchParamProps) => {
 
-    console.log('userId : ', PaitentId)
-    const paitent = await getPaitent(PaitentId);
+    console.log('userId : ', userId)
+    const patient = await getPaitent(userId);
+    console.log('patient : ', patient);
+    console.log('patientId : ', patient?.$id);
 
     return (
         <div className="flex h-screen max-h-screen">
-            <section className="remove-scrollbar container">
-                <div className="sub-container max-w-[860px] flex-1 flex-col py-10">
+            <section className="remove-scrollbar container my-auto">
+                <div className="sub-container max-w-[860px] flex-1 justify-between">
                     <Image
                         src="/logo/Logo.svg"
                         height={1000}
                         width={1000}
-                        alt="paitent"
+                        alt="patient"
                         className="mb-12 h-10 w-fit"
                     />
 
-                    {/* <RegisterForm user={user} /> */}
-                    {/* <AppoinmentForm Paitent={paitent} /> */}
+                    <AppoinmentForm
+                        type="create"
+                        userId={userId}
+                        patientId={patient?.$id}
+                    />
 
-                    <p className="coyright py-12">
+                    <p className="copyright mt-10 py-12">
                         @2024 carepulse copyright
                     </p>
                 </div>
@@ -35,11 +40,11 @@ const Appointment = async ({ params: { PaitentId } }: SearchParamProps) => {
                 src="/images/appoinment-page.png"
                 height={1000}
                 width={1000}
-                alt="paitent"
-                className="side-img max-w-[390px]"
+                alt="Appoinment"
+                className="side-img max-w-[390px] bg-bottom"
             />
         </div>
     )
 }
 
-export default Appointment
+export default NewAppointment

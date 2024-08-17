@@ -89,14 +89,14 @@ export const registerPaitent = async ({
 
 export const getPaitent = async (userId: string) => {
   try {
-    const paitent = await databases.listDocuments(
+    const paitents = await databases.listDocuments(
       DATABASE_ID!,
       PAITENT_COLLECTION_ID!,
       [Query.equal("userId", [userId])]
     );
 
-    console.log({ paitent: paitent });
-    return parseStringify(paitent);
+    // console.log({ paitent: paitent });
+    return parseStringify(paitents.documents[0]);
   } catch (error) {
     console.log("errro occure in retrive the paitent: ", error);
   }

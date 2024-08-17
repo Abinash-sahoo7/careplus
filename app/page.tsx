@@ -2,14 +2,19 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Paitentform from "@/components/forms/Paitentform";
 import Link from "next/link";
+import PasskeyModel from "@/components/PasskeyModel";
 
 
 
-export default function Home() {
+export default function Home({ searchParams }: SearchParamProps) {
+
+  const isAdmin = searchParams.admin === 'true'
+
   return (
     <div className="flex h-screen max-h-screen">
 
       {/* { TO Do OTP verification  } */}
+      {isAdmin && <PasskeyModel />}
 
       <section className="container remove-scrollbar my-auto">
         <div className="sub-container max-w-[496px]">
@@ -23,14 +28,14 @@ export default function Home() {
 
           <Paitentform />
 
-          <div className="flex justify-between text-14-regular mt-4">
+          <div className="flex justify-between text-14-regular mt-8">
             <p className="justify-items-end text-dark-600 xl:text-left">
               @2024 carepulse copyright
             </p>
+            <Link href="/?admin=true" className="text-green-500">
+              Admin
+            </Link>
           </div>
-          <Link href="/?admin=true" className="text-green-500">
-            Admin
-          </Link>
         </div>
       </section>
 
