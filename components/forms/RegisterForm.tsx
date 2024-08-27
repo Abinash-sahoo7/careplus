@@ -71,7 +71,7 @@ const RegisterForm = ({ user }: { user: User }) => {
             console.log("Inside try block of the RegisterUser Event paitent : ", paitent);
 
             if (paitent) {
-                router.push(`/patients/${user.$id}/new-appoinment`)
+                router.push(`/patients/${user.$id}/new-appointment`)
             }
 
 
