@@ -20,7 +20,7 @@ if (!ENDPOINT || !PROJECT_ID || !API_KEY) {
   console.log("Missing environment variables");
 }
 
-console.log(ENDPOINT, PROJECT_ID, API_KEY);
+console.log("APPOINMENT_COLLECTION_ID : ", APPOINMENT_COLLECTION_ID);
 
 client.setEndpoint(ENDPOINT!).setProject(PROJECT_ID!).setKey(API_KEY!);
 

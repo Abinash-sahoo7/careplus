@@ -5,9 +5,10 @@ import {
   APPOINMENT_COLLECTION_ID,
   DATABASE_ID,
   databases,
+  messaging,
   PAITENT_COLLECTION_ID,
 } from "../appwwrite.config";
-import { parseStringify } from "../utils";
+import { formatDateTime, parseStringify } from "../utils";
 import { Appointment } from "@/types/appwrite.types";
 import { revalidatePath } from "next/cache";
 
@@ -53,7 +54,7 @@ export const getRecentAppointmentList = async () => {
       [Query.orderDesc("$createdAt")]
     );
 
-    console.log("list Appointments are : ", appointments);
+    // console.log("list Appointments are : ", appointments);
 
     const initialCount = {
       scheduledCount: 0,
@@ -76,7 +77,7 @@ export const getRecentAppointmentList = async () => {
       initialCount
     );
 
-    console.log("Counts are : ", counts);
+    // console.log("Counts are : ", counts);
 
     const data = {
       totalCount: appointments.total,
@@ -84,7 +85,7 @@ export const getRecentAppointmentList = async () => {
       documents: appointments.documents,
     };
 
-    console.log("Data in the getRecentAppointmentList : ", data);
+    // console.log("Data in the getRecentAppointmentList : ", data);
 
     return parseStringify(data);
   } catch (error) {
@@ -110,11 +111,47 @@ export const updateAppointment = async ({
       throw new Error("Appointment not found !");
     }
 
-    // TODO SMS Notification
+    console.log("type : ", type);
+
+    const smsMessage = `
+      
+    Greetings from Careplus 
+      ${
+        type === "schedule"
+          ? ` Your appointment is confirmed for ${
+              formatDateTime(appointment.schedule).dateTime
+            }
+               with Dr. ${appointment.primaryPhysician} `
+          : `We regret to inform that your appointment for ${
+              formatDateTime(appointment.schedule).dateTime
+            } is cancelled foe the following reason :
+            ${appointment.cancellationReason} `
+      }
+      `;
+
+    await sendSmsNotification(userId, smsMessage);
+
     revalidatePath("/admin");
 
     return parseStringify(updatedAppointment);
   } catch (error) {
     console.log("Error occure while update Appointment : ", error);
+  }
+};
+
+export const sendSmsNotification = async (userId: string, content: string) => {
+  try {
+    const message = await messaging.createSms(
+      ID.unique(),
+      content,
+      [],
+      [userId]
+    );
+
+    console.log("inside the sendsmsNotification function message : ", message);
+
+    return parseStringify(message);
+  } catch (error) {
+    console.log("error occure whiile send Sms : ", error);
   }
 };

@@ -6,6 +6,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
+import * as Sentry from "@sentry/nextjs";
+import { getUser } from '@/lib/actions/patient.actions';
 //  http://localhost:3000/patients/66ae47ed002339440079/new-appointment/success?appointmentId=66bcea1c00019319c0c3
 
 // here the 66ae47ed002339440079 -> searchparams and appointmentId=66bcea1c00019319c0c3 is called queryparams
@@ -18,6 +20,9 @@ const Success = async ({ params: { userId }, searchParams }: SearchParamProps) =
     const doctor = Doctors.find(
         (doctor) => doctor.name === appointment.primaryPhysician
     );
+    const user = await getUser(userId);
+
+    Sentry.metrics.set("user_view_appointment_success", user.name);
 
     return (
         <div className='flex h-screen max-h-screen px-[5%]'>
