@@ -22,6 +22,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <meta name="cryptomus" content="9587c30f" />
+      </head>
       <body className={cn(
         "min-h-screen bg-dark-300 font-sans antialiased",
         fontSans.variable
