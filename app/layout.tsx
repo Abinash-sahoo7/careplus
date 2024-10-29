@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <meta name="cryptomus" content="9587c30f" />
+        <meta name="cryptomus" content="9b7c0638" />
       </head>
       <body className={cn(
         "min-h-screen bg-dark-300 font-sans antialiased",
